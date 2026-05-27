@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # 1. Your Vector Database (Translated from your docker inspect)
+  vector-db:
+    image: pgvector/pgvector:0.8.1-pg18-trixie
+    container_name: my-vector-db
+    ports:
+      - "5434:5432" # Maps host port 5434 to container port 5432
+    environment:
+      - POSTGRES_DB=my-test-vector-db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - TZ=Asia/Kolkata
+      - PGTZ=Asia/Kolkata
+      - PGDATA=/var/lib/postgresql/18/docker
+    command: ["postgres", "-c", "timezone=Asia/Kolkata"]
+    volumes:
+      - pgdata:/var/lib/postgresql # Creates a persistent volume for your DB
+    restart: unless-stopped
+
+  # 2. Your Spring Boot Backend (ApnaBuddy)
+  # apnabuddy-backend:
+  #   build: ./ApnaBuddy
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     - vector-db
+  #   environment:
+  #     - SPRING_DATASOURCE_URL=jdbc:postgresql://vector-db:5432/my-test-vector-db
+  #     - SPRING_DATASOURCE_USERNAME=user
+  #     - SPRING_DATASOURCE_PASSWORD=password
+
+# Declaring the named volume for persistence
+volumes:
+  pgdata:

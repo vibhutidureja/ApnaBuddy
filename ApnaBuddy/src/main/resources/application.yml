@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: ApnaBuddy
+
+  # --- SPRING AI CONFIGURATION ---
+  ai:
+    openai:
+      api-key: YOUR_OPENAI_API_KEY
+      chat:
+        options:
+          model: gpt-4o-mini
+          temperature: 0.9
+      embedding:
+        options:
+          model: text-embedding-3-small
+
+    chat:
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: always
+            table-name: chat_memory
+
+  # --- DATABASE CONFIGURATION ---
+  datasource:
+    url: jdbc:postgresql://localhost:5434/my-test-vector-db
+    username: user
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+
+# --- CUSTOM SECURITY PROPERTIES ---
+app:
+  jwt:
+    secret-key: "YOUR_SUPER_SECRET_KEY_MAKE_SURE_IT_IS_LONG_ENOUGH_FOR_HMAC_SHA_256"
+    expiration-ms: 86400000 # 24 hours
+  google:
+    client-id: "YOUR_GOOGLE_CLIENT_ID"
+  ml:
+    engine-url: "http://localhost:8000/analyze"
+
+logging:
+  level:
+    org.springframework.ai.chat.client: DEBUG
+    org.springframework.security: DEBUG
+    com.codingshuttle.learn_spring_ai: INFO
+
+server:
+  port: 8084
