@@ -1,0 +1,41 @@
+databases:
+  - name: apnabuddy-db
+    databaseName: apnabuddy
+    user: apnabuddy_user
+
+services:
+  - type: web
+    name: apnabuddy-ml-engine
+    env: docker
+    dockerfilePath: ./ml-engine/Dockerfile
+    # Render's free tier has strict memory limits. 
+    # ML models will likely require you to change this to 'starter' or 'standard' in the Render Dashboard.
+    plan: free
+
+  - type: web
+    name: apnabuddy-backend
+    env: docker
+    dockerfilePath: ./ApnaBuddy/Dockerfile
+    plan: free
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: apnabuddy-db
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: apnabuddy-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: apnabuddy-db
+          property: password
+      - key: APP_ML_ENGINE_URL
+        # Internal network communication on Render
+        value: http://apnabuddy-ml-engine:8000/analyze
+      - key: SPRING_AI_OPENAI_API_KEY
+        sync: false
+      - key: APP_JWT_SECRET_KEY
+        sync: false
+      - key: APP_GOOGLE_CLIENT_ID
+        sync: false
