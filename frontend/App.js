@@ -37,15 +37,16 @@ const AppNavigator = () => {
               </>
           ) : !user.hasCompletedOnboarding ? (
               <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-          ) : !user.hasCompletedAssessment ? (
-              <>
-                <Stack.Screen name="Test" component={TestScreen} />
-                <Stack.Screen name="Assessment" component={AssessmentScreen} />
-                <Stack.Screen name="Dashboard" component={DashboardScreen} />
-              </>
           ) : (
               <>
-                {/* Main App Stack */}
+                {/* Main App Stack (with Test as first screen if not completed) */}
+                {!user.hasCompletedAssessment && (
+                    <>
+                      <Stack.Screen name="Test" component={TestScreen} />
+                      <Stack.Screen name="Assessment" component={AssessmentScreen} />
+                    </>
+                )}
+                
                 <Stack.Screen name="Dashboard" component={DashboardScreen} />
                 <Stack.Screen name="Chat" component={ChatScreen} />
                 <Stack.Screen name="Games" component={GamesScreen} />
@@ -55,9 +56,14 @@ const AppNavigator = () => {
                 <Stack.Screen name="Breathing" component={BreathingExerciseScreen} />
                 <Stack.Screen name="Profile" component={ProfileScreen} />
                 <Stack.Screen name="Report" component={ReportScreen} />
-                {/* 🔥 FIX: Both Test AND Assessment are registered here so the user can retake it! */}
-                <Stack.Screen name="Test" component={TestScreen} />
-                <Stack.Screen name="Assessment" component={AssessmentScreen} />
+                
+                {/* Allow retaking test even if completed */}
+                {user.hasCompletedAssessment && (
+                    <>
+                      <Stack.Screen name="Test" component={TestScreen} />
+                      <Stack.Screen name="Assessment" component={AssessmentScreen} />
+                    </>
+                )}
               </>
           )}
         </Stack.Navigator>
