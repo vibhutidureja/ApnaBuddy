@@ -60,8 +60,12 @@ public class WebSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Explicitly allow the Expo web dev server (NO wildcard "*" here!)
-        configuration.setAllowedOrigins(List.of("http://localhost:8081", "http://localhost:19006"));
+        // Explicitly allow the Expo web dev server and the Vercel production frontend
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:8081", 
+                "http://localhost:19006", 
+                "https://apna-buddy-frontend.vercel.app"
+        ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
 
