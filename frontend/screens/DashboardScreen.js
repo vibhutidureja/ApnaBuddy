@@ -36,7 +36,7 @@ function getWellnessData(score) {
 }
 
 export default function DashboardScreen({ navigation }) {
-  const [userData, setUserData] = useState({ name: 'User' });
+  const { user } = useContext(AuthContext);
   const [wellnessScore, setWellnessScore] = useState(null);
   const [emergency, setEmergency] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -49,9 +49,7 @@ export default function DashboardScreen({ navigation }) {
     useCallback(() => {
       const loadData = async () => {
         try {
-          const d = await AsyncStorage.getItem('userData');
           const s = await AsyncStorage.getItem('wellnessScore');
-          if (d) setUserData(JSON.parse(d));
           if (s) setWellnessScore(Number(s));
         } catch (e) {
           console.error(e);
@@ -112,7 +110,7 @@ export default function DashboardScreen({ navigation }) {
 
         <Text style={s.h1}>
           Welcome back,{'\n'}
-          <Text style={s.h1Italic}>{userData.nickname || userData.name || 'User'}</Text>
+          <Text style={s.h1Italic}>{user?.nickname || user?.name || 'User'}</Text>
         </Text>
         <Text style={s.subtitle}>Hope you're looking after yourself today.</Text>
 
@@ -193,7 +191,7 @@ export default function DashboardScreen({ navigation }) {
             <SafeAreaView style={{ flex: 1 }}>
               <View style={s.drawerHeader}>
                 <Text style={s.brand}> Apna Buddy</Text>
-                <Text style={s.drawerSub}>Hi, {userData.nickname || userData.name || 'User'}</Text>
+                <Text style={s.drawerSub}>Hi, {user?.nickname || user?.name || 'User'}</Text>
               </View>
 
               <ScrollView style={{ flex: 1 }}>

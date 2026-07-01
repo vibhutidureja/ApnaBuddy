@@ -4,8 +4,8 @@ import { Platform } from 'react-native';
 
 // Dynamically route the request based on where the app is running
 const BASE_URL = Platform.OS === 'web' 
-    ? 'http://localhost:8084/api'         // Web browsers MUST use localhost
-    : 'http://192.168.1.45:8084/api';     // ⚠️ REPLACE '192.168.1.45' WITH YOUR PC's ACTUAL IPv4 ADDRESS!
+  ? (__DEV__ ? 'http://localhost:8084/api' : '/api') 
+  : 'http://13.60.68.144:8084/api'; // Hosted on AWS EC2
 
 export const api = axios.create({
     baseURL: BASE_URL,

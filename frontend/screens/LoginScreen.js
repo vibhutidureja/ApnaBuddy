@@ -8,9 +8,9 @@ import { AuthContext } from '../context/AuthContext';
 WebBrowser.maybeCompleteAuthSession();
 
 // Using your Web Client ID across all platforms for testing
-const WEB_CLIENT_ID     = '83317586453-v3bgoactr3p2fk9o3mdotgmo34r2o8o6.apps.googleusercontent.com';
-const ANDROID_CLIENT_ID = '83317586453-v3bgoactr3p2fk9o3mdotgmo34r2o8o6.apps.googleusercontent.com'; 
-const IOS_CLIENT_ID     = '83317586453-v3bgoactr3p2fk9o3mdotgmo34r2o8o6.apps.googleusercontent.com'; 
+const WEB_CLIENT_ID     = '1040164530649-jjt41i94p2othlrk3vclgr2623vf5lve.apps.googleusercontent.com';
+const ANDROID_CLIENT_ID = '1040164530649-jjt41i94p2othlrk3vclgr2623vf5lve.apps.googleusercontent.com'; 
+const IOS_CLIENT_ID     = '1040164530649-jjt41i94p2othlrk3vclgr2623vf5lve.apps.googleusercontent.com'; 
 
 export default function LoginScreen({ navigation }) {
   const { loginWithGoogle } = useContext(AuthContext);
